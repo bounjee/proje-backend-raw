@@ -1,0 +1,303 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Remove default margin in favour of better control in authored CSS */
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-family: "Poppins", sans-serif !important;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Set core body defaults */
+body {
+  line-height: 1.5;
+}
+
+/* Set shorter line heights on headings and interactive elements */
+h1, h2, h3, h4,
+button, input, label {
+  line-height: 1.1;
+}
+
+/* Balance text wrapping on headings */
+h1, h2,
+h3, h4 {
+  text-wrap: balance;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
+}
+
+/* Make images easier to work with */
+img,
+picture,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input, button,
+textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Make sure textareas without a rows attribute are not tiny */
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* CSS Start */
+
+main {
+  max-width: fit-content;
+  margin-inline: auto;
+}
+
+.main-title {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.secondary-title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+    gap: 1em;
+}
+
+.city-textinput {
+    width: 100%;
+    padding: 0.5em 1em;
+    text-align: left;
+}
+
+.date-textinput {
+    width: 100%;
+    padding: 0.5em 1em;
+    text-align: left;
+}
+
+.selection-title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-top: 1em;
+}
+
+.selection-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 1em;
+    margin-top: 1em;
+    max-width: fit-content;
+    margin-inline: auto;   
+}
+
+.selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5em 2em;
+  text-align: center;
+  border: 1px solid #020f3f;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: transparent; /* Default background color */
+  color: #020f3f; /* Default text color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: large;
+  font-weight: 400;
+}
+
+.selection .icon {
+  filter: brightness(1); /* Ensure the icon follows the text color */
+  fill: #020f3f; /* Default icon color */
+  transition: fill 0.3s ease;
+}
+
+.selection:hover {
+  background-color: transparent; /* Keep background transparent on hover */
+  color: #020f3f; /* Hover text color */
+}
+
+.selection:hover .icon {
+  fill: #020f3f; /* Hover icon color */
+}
+
+.selection.selected {
+  background-color: #020f3f; /* Selected background color */
+  color: white; /* Selected text color */
+}
+
+.selection:hover {
+  background-color: #e0e0e0; /* Optional hover background */
+}
+
+.selection.selected .icon {
+  fill: white; /* Selected icon color */
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  fill: rgb(116, 172, 172);
+  stroke: rgb(84, 109, 109);
+}
+
+.count-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.number-text {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.number-textinput {
+    width: 5%;
+    padding: 0.5em;
+    text-align: left;
+}
+
+.route-btn {
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 1em 1.6em;
+  color: white;
+  background-color: #020f3f;
+  cursor: pointer;
+  width: 60%;
+  text-align: center;
+}
+
+.route-btn:hover {
+  background-color: #000;
+}
+
+.person-counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5em;
+  width: 100%;
+}
+
+.person-display {
+  /* background-color: #e0f7df;  */
+  /* padding: 0.5em 1.5em; */
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1.2rem;
+}
+
+.person-number {
+  /* font-weight: bold; */
+  width: 50px;
+  height: 40px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* padding: 0.5em 1.4em; */
+  background-color: #EAFCFF ; /* Light green background */
+}
+
+.counter-buttons {
+  display: flex;
+  gap: 0.5em;
+}
+
+.counter-btn {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 0.5em;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 50px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centers the content horizontally and vertically */
+}
+
+.counter-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.custom-btn {
+  padding: 1rem;
+  background-color: #020f3f;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  margin-inline: auto;
+  gap: 0.5rem; 
+  font-size: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+.custom-btn img.icon {
+  width: 1em; 
+  height: 1em;
+}
+
+.select-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
