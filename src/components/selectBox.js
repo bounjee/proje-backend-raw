@@ -8,7 +8,7 @@ const options = [
   { value: 'izmir', label: 'İzmir' },
 ];
 
-const CustomSelectBox = () => {
+const CustomSelectBox = ({ onChange }) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const customStyles = {
@@ -37,7 +37,10 @@ const CustomSelectBox = () => {
   return (
     <Select
       value={selectedOption}
-      onChange={setSelectedOption}
+      onChange={(option) => {
+        setSelectedOption(option);
+        onChange(option);
+      }}
       options={options}
       styles={customStyles}
       placeholder="Bir şehir seçiniz."

@@ -1,32 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import tripCss from '../pages/tripPage.css';
 import starIcon from '../images/stars.svg';
-import pathfinderLogo from '../images/pathfinder-new_logo.svg'
+import pathfinderLogo from '../images/pathfinder-new_logo.svg';
 import { FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
-import artIcon from '../images/icons/art.svg'
-import culturIcon from '../images/icons/cultur.svg'
-import foodIcon from '../images/icons/food.svg'
-import funIcon from '../images/icons/fun.svg'
-import natureIcon from '../images/icons/nature.svg'
-import shoppingIcon from '../images/icons/shopping.svg'
+import artIcon from '../images/icons/art.svg';
+import culturIcon from '../images/icons/cultur.svg';
+import foodIcon from '../images/icons/food.svg';
+import funIcon from '../images/icons/fun.svg';
+import natureIcon from '../images/icons/nature.svg';
+import shoppingIcon from '../images/icons/shopping.svg';
 import CustomSelectBox from '../components/selectBox';
-import CustomSelectBox2 from '../components/selectBox_2';
+import CustomDateRangePicker from '../components/selectBox_2';
 
-
-
-
+const activityNames = [
+  'kültürel_gezi',
+  'alışveriş_gezisi',
+  'doğa_gezisi',
+  'gastronomi_gezisi',
+  'sanat_etkinlikleri',
+  'eğlence_etkinlikleri'
+];
 
 const TripPage = () => {
+
+  // Function to update the text file
+  const updateTextFile = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/update-text', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newText: 'yazi2' }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        // alert(data.message); // Show success message
+      } else {
+        // alert('Error: ' + data.message); // Show error message
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    updateTextFile();
+  }, []);
+
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   const [personCount, setPersonCount] = useState(1);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handleSelectionClick = (index) => {
     if (selectedIndexes.includes(index)) {
-      // Eğer tıklanan kutucuk zaten seçiliyse, onu diziden çıkar
       setSelectedIndexes(selectedIndexes.filter(i => i !== index));
     } else {
-      // Eğer tıklanan kutucuk seçili değilse, dizinin içine ekle
       setSelectedIndexes([...selectedIndexes, index]);
     }
   };
@@ -34,62 +67,35 @@ const TripPage = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
+    // Seçilen aktiviteleri uygun formata dönüştür
+    const selectedActivities = selectedIndexes.map(index => activityNames[index]);
+
+    // Seçilen aktiviteleri, kişi sayısını, şehir ve tarihleri localStorage'a kaydet
+    localStorage.setItem('selectedActivities', JSON.stringify(selectedActivities));
+    localStorage.setItem('personCount', personCount);
+    localStorage.setItem('selectedCity', selectedCity ? selectedCity.value : null);
+    localStorage.setItem('startDate', startDate ? startDate.format('DD/MM/YYYY') : null);
+    localStorage.setItem('endDate', endDate ? endDate.format('DD/MM/YYYY') : null);
     navigate('/meal');
   };
-  
 
   return (
-    // ## NAVBAR SECTION ##
-<>
-    {/* <navbar className='navbar'>
-        <div className='navbar-logo'>
-        <a href='#'><img src={pathfinderLogo} alt="Pathfinder Icon" className="icon" />  Pathfinder</a>
-        </div>
-        <div className='navbar-community'>
-            <a href='#'>Topluluk Rotaları</a>
-            </div>
-        <div className='navbar-profile'>
-        <a href='#'>Profil</a>
-
-        </div>
-    </navbar> */}
-
-        {/* // ## MAIN SECTION ## */}
-
-        <main>
-  <section>
-    <div className="main-title">Rotanızı Oluşturun</div>
-    <div className="secondary-title">Nereye Gitmek İstersiniz?</div>
-    <div className='select-box'> 
-      <CustomSelectBox />
-      <CustomSelectBox2 />
-    </div>
-
-
-    <div className="search-container">
-
-      {/* <select name="city" className="city-textinput">
-        <option value="">Şehir Seçin</option>
-        <option value="gaziantep">Gaziantep</option>
-        <option value="antalya">Antalya</option>
-      </select> */}
-      
-      {/* <input 
-        type="date" 
-        name="date" 
-        className="date-textinput" 
-        min={new Date().toISOString().split("T")[0]} 
-        max={new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split("T")[0]} 
-        placeholder="Tarih Seçin" 
-      /> */}
-    </div>
-    {/* <div className="main-title">Rotanızı Oluşturun</div>
-    <input type="text" placeholder="Nereye Gitmek İstersiniz?" className="selection" />
-    <input type="text" placeholder="Tarih Seçiniz?" className="selection" /> */}
-
-
-  </section>
-     <section>
+    <>
+      <main className='main-section'>
+        <section>
+          <div className="main-title">Rotanızı Oluşturun</div>
+          <div className="secondary-title">Nereye Gitmek İstersiniz?</div>
+          <div className='select-box'>
+            <CustomSelectBox onChange={setSelectedCity} />
+            <CustomDateRangePicker className="date-container"
+              onDatesChange={({ startDate, endDate }) => {
+                setStartDate(startDate);
+                setEndDate(endDate);
+              }}
+            />
+          </div>
+        </section>
+        <section>
           <div className="selection-title">Yapmak İstediğiniz Aktiviteleri İşaretleyin</div>
           <div className="selection-container">
             {[culturIcon, shoppingIcon, natureIcon, foodIcon, artIcon, funIcon].map((icon, index) => (
@@ -110,58 +116,25 @@ const TripPage = () => {
           </div>
         </section>
         <section className='count-container'>
-            <div className='number-text'>Kişi Sayısı?</div>
-            <div className='person-counter'>
-              <div className="person-display">
-                <div className="person-number">{personCount}</div>
-                <div className='person-text'>Kişi</div>
-              </div>
-              <div className="counter-buttons">
+          <div className='number-text'>Kişi Sayısı?</div>
+          <div className='person-counter'>
+            <div className="person-display">
+              <div className="person-number">{personCount}</div>
+              <div className='person-text'>Kişi</div>
+            </div>
+            <div className="counter-buttons">
               <button className="counter-btn" onClick={() => setPersonCount(Math.max(personCount - 1, 1))}>-</button>
               <button className="counter-btn" onClick={() => setPersonCount(personCount + 1)}>+</button>
-              </div>
             </div>
-</section>
-
-<div className='custom-btn' onClick={handleButtonClick}>
+          </div>
+        </section>
+        <div className='custom-btn' onClick={handleButtonClick}>
           <img src={starIcon} alt="Star Icon" className="icon" />
           Özelleştirilmiş Rotanı Oluştur!
         </div>
-
-</main>
-
-
-{/* // ## FOOTER SECTION ## */}
-
-{/* <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-links">
-          <ul>
-            <li><a href="/">Anasayfa</a></li>
-            <li><a href="/about">Hakkımızda</a></li>
-            <li><a href="/services">Servislerimiz</a></li>
-            <li><a href="/contact">İletişim</a></li>
-          </ul>
-        </div>
-        <div className="footer-socials">
-      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className='social-icons'>
-        <FaLinkedin size={24} />
-      </a>
-      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className='social-icons'>
-        <FaInstagram size={24} />
-      </a>
-      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className='social-icons'>
-        <FaTwitter size={24} />
-      </a>
-    </div>
-        <div className="footer-copyright">
-          <p>2024 Your Company Name. All rights reserved.</p>
-        </div>
-      </div>
-    </footer> */}
-
+      </main>
     </>
-  )
-}
+  );
+};
 
-export default TripPage; // Ensure this matches the component name
+export default TripPage;

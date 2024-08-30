@@ -1,48 +1,35 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
+import 'react-dates/initialize';
+import { DateRangePicker } from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
+import moment from 'moment';
 
-const options = [
-  { value: 'gaziantep', label: 'Gaziantep' },
-  { value: 'antalya', label: 'Antalya' },
-  { value: 'istanbul', label: 'İstanbul' },
-  { value: 'izmir', label: 'İzmir' },
-];
-
-const CustomSelectBox = () => {
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const customStyles = {
-    control: (provided) => ({
-      ...provided,
-      borderRadius: '4px',
-      padding: '4px',
-      boxShadow: 'none',
-      border: '1px solid #020f3f',
-    }),
-    menu: (provided) => ({
-      ...provided,
-      borderRadius: '4px',
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      color: state.isSelected ? '#ffffff' : '#020f3f',
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: '#020f3f',
-      fontWeight: '500',
-    }),
-  };
+const CustomDateRangePicker = ({ onDatesChange }) => {
+  const [başlangıçTarihi, setBaşlangıçTarihi] = useState(null);
+  const [bitişTarihi, setBitişTarihi] = useState(null);
+  const [focusedInput, setFocusedInput] = useState(null);
 
   return (
-    <Select
-      value={selectedOption}
-      onChange={setSelectedOption}
-      options={options}
-      styles={customStyles}
-      placeholder="Tarih Seçiniz."
-    />
+    <div>
+      <DateRangePicker
+        startDate={başlangıçTarihi}
+        startDateId="start_date_id"
+        endDate={bitişTarihi}
+        endDateId="end_date_id"
+        onDatesChange={({ startDate, endDate }) => {
+          setBaşlangıçTarihi(startDate);
+          setBitişTarihi(endDate);
+          onDatesChange({ startDate, endDate });
+        }}
+        focusedInput={focusedInput}
+        onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+        displayFormat="DD/MM/YYYY"
+        isOutsideRange={day => moment().diff(day, 'days') > 0}
+        startDatePlaceholderText="Başlangıç Tarihi"
+        endDatePlaceholderText="Bitiş Tarihi"
+      />
+    </div>
   );
 };
 
-export default CustomSelectBox;
+export default CustomDateRangePicker;
