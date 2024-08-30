@@ -98,7 +98,7 @@ textarea:not([rows]) {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);  gap: 1em;
   margin-top: 1em;
-  max-width: fit-content;
+  /* max-width: fit-content; */
   margin-inline: auto;
 }
 

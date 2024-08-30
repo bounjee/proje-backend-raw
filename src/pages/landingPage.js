@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import landingCss from '../pages/landingPage.css';
 import starIcon from '../images/stars.svg';
 // import pathfinderLogo from '../images/pathfinder-new_logo.svg';
 // import { FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
-import Gezi1 from '../images/gaziantep-tarihi.jpg';
-import Gezi2 from '../images/gastroantep.jpg';
-import Gezi3 from '../images/gaziantep-dini.jpg';
+import Gezi1 from '../images/antalya-tarihi.jpg';
+import Gezi2 from '../images/antalya-yemek.jpg';
+import Gezi3 from '../images/antalya-dini.jpg';
+import Gezi4 from '../images/antalya-eğlence.jpeg';
+import Gezi5 from '../images/antalya-doğa.jpg';
+import Gezi6 from '../images/antalya-plaj.jpg';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -14,6 +17,32 @@ const LandingPage = () => {
   const handleButtonClick = () => {
     navigate('/your-custom-route');
   };
+
+  // Function to update the text file
+  const updateTextFile = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/update-text', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newText: 'yazi1' }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        // alert(data.message); // Show success message
+      } else {
+        // alert('Error: ' + data.message); // Show error message
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    updateTextFile();
+  }, []);
 
   return (
     <>
@@ -40,17 +69,17 @@ const LandingPage = () => {
             <div className='main_box-pic'>
               <img src={Gezi1} alt="Ana Resim" />
             </div>
-            <div className='main_box-title'>Gaziantep: Tarihi Yapılar Turu</div>
+            <div className='main_box-title'>Antalya: Tarihi Yapılar Turu</div>
             <div className='main_box-date'>3 Günlük</div>
             <div className='main_box-new-event'>Yeni Etkinlik</div>
           </div>
-
+        
           <div className='main-box'>
             <div className='main_box-pic'>
               <img src={Gezi2} alt="Ana Resim" />
             </div>
-            <div className='main_box-title'>Gaziantep: Gastronomi Turu</div>
-            <div className='main_box-date'>3 Günlük</div>
+            <div className='main_box-title'>Antalya: Gastronomi Turu</div>
+            <div className='main_box-date'>2 Günlük</div>
             <div className='main_box-new-event'>Yeni Etkinlik</div>
           </div>
 
@@ -58,35 +87,35 @@ const LandingPage = () => {
             <div className='main_box-pic'>
               <img src={Gezi3} alt="Ana Resim" />
             </div>
-            <div className='main_box-title'>Gaziantep: Dini Yapılar Turu</div>
+            <div className='main_box-title'>Antalya: Dini Yapılar Turu</div>
+            <div className='main_box-date'>2 Günlük</div>
+            <div className='main_box-new-event'>Yeni Etkinlik</div>
+          </div>
+
+          <div className='main-box'>
+            <div className='main_box-pic'>
+              <img src={Gezi4} alt="Ana Resim" />
+            </div>
+            <div className='main_box-title'>Antalya: Eğlence Turu</div>
+            <div className='main_box-date'>1 Günlük</div>
+            <div className='main_box-new-event'>Yeni Etkinlik</div>
+          </div>
+
+          <div className='main-box'>
+            <div className='main_box-pic'>
+              <img src={Gezi5} alt="Ana Resim" />
+            </div>
+            <div className='main_box-title'>Antalya: Doğa Turu</div>
             <div className='main_box-date'>3 Günlük</div>
             <div className='main_box-new-event'>Yeni Etkinlik</div>
           </div>
 
           <div className='main-box'>
             <div className='main_box-pic'>
-              <img src={Gezi1} alt="Ana Resim" />
+              <img src={Gezi6} alt="Ana Resim" />
             </div>
-            <div className='main_box-title'>Gaziantep: Tarihi Yapılar Turu</div>
-            <div className='main_box-date'>3 Günlük</div>
-            <div className='main_box-new-event'>Yeni Etkinlik</div>
-          </div>
-
-          <div className='main-box'>
-            <div className='main_box-pic'>
-              <img src={Gezi1} alt="Ana Resim" />
-            </div>
-            <div className='main_box-title'>Gaziantep: Tarihi Yapılar Turu</div>
-            <div className='main_box-date'>3 Günlük</div>
-            <div className='main_box-new-event'>Yeni Etkinlik</div>
-          </div>
-
-          <div className='main-box'>
-            <div className='main_box-pic'>
-              <img src={Gezi1} alt="Ana Resim" />
-            </div>
-            <div className='main_box-title'>Gaziantep: Tarihi Yapılar Turu</div>
-            <div className='main_box-date'>3 Günlük</div>
+            <div className='main_box-title'>Antalya: Plaj ve Koy Turları</div>
+            <div className='main_box-date'>4 Günlük</div>
             <div className='main_box-new-event'>Yeni Etkinlik</div>
           </div>
 

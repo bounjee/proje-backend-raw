@@ -66,6 +66,32 @@ const ProgressBar = () => {
     }
   };
 
+  // Function to update the text file
+  const updateTextFile = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/update-text', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newText: 'yazi4' }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        // alert(data.message); // Show success message
+      } else {
+        // alert('Error: ' + data.message); // Show error message
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    updateTextFile();
+  }, []);
+
   return (
     <div style={styles.container}>
       <img 
